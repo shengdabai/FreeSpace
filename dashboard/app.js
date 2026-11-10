@@ -328,7 +328,15 @@ function renderAllWindows(windows) {
     if (visible.length > 1) {
       const header = document.createElement('div');
       header.className = 'window-section-header';
-      header.innerHTML = '<span class="window-icon">&#x1FA9F;</span><span>Window</span><span class="window-count">' + w.tabCount + ' tabs</span>';
+      const icon = document.createElement('span');
+      icon.className = 'window-icon';
+      icon.textContent = '\u{1FA9F}';
+      const label = document.createElement('span');
+      label.textContent = 'Window';
+      const count = document.createElement('span');
+      count.className = 'window-count';
+      count.textContent = w.tabCount + ' tabs';
+      header.append(icon, label, count);
       groupsContainer.appendChild(header);
     }
 
@@ -351,11 +359,19 @@ function renderGroupCard(group) {
   header.setAttribute('aria-expanded', String(!collapsedGroups.has(group.category)));
   header.setAttribute('tabindex', '0');
 
-  header.innerHTML =
-    '<span class="group-icon">' + group.icon + '</span>' +
-    '<span class="group-name">' + group.category + '</span>' +
-    '<span class="group-count">' + group.tabs.length + '</span>' +
-    '<span class="group-chevron">\u25BC</span>';
+  const icon = document.createElement('span');
+  icon.className = 'group-icon';
+  icon.textContent = group.icon;
+  const name = document.createElement('span');
+  name.className = 'group-name';
+  name.textContent = group.category;
+  const count = document.createElement('span');
+  count.className = 'group-count';
+  count.textContent = group.tabs.length;
+  const chevron = document.createElement('span');
+  chevron.className = 'group-chevron';
+  chevron.textContent = '\u25BC';
+  header.append(icon, name, count, chevron);
 
   header.addEventListener('click', () => {
     collapsedGroups.has(group.category) ? collapsedGroups.delete(group.category) : collapsedGroups.add(group.category);
